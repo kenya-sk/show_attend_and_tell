@@ -2,6 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 import json
+from tqdm import trange
 
 
 def build_dataset(root_img_dirc, ann_path, save_path):
@@ -23,7 +24,7 @@ def build_dataset(root_img_dirc, ann_path, save_path):
 
     # build dataset with two columns (image file path, answer caption)
     dataset_dictlst = {"file_name": [], "caption": []}
-    for i in range(len(annotations["images"])):
+    for i in trange(len(annotations["images"])):
         file_name = annotations["images"][i]["file_name"]
         if os.path.exists(os.path.join(root_img_dirc, file_name)):
             dataset_dictlst["file_name"].append(file_name)
@@ -34,6 +35,7 @@ def build_dataset(root_img_dirc, ann_path, save_path):
     # save dataset
     dataset_df = pd.DataFrame(dataset_dictlst)
     dataset_df.to_csv(save_path, index=False)
+    print("save dataset: {0}".format(save_path))
 
 
 if __name__ == "__main__":
