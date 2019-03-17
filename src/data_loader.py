@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
+import nltk
 from PIL import Image
 import torch
 import torch.nn as nn
@@ -31,6 +32,9 @@ class ImageDataset(data.Dataset):
         if self._transform is not None:
             image = self._transform(image)
         caption = self._target_df["caption"][idx]
+
+        # covert to lower case and split by word
+        caption = nltk.tokenize.word_tokenize(str(caption).lower())
 
         # Convert caption (string) to word ids.
         caption_lst = []
