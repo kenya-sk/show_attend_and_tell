@@ -1,0 +1,5 @@
+# Ignore everything
+*
+
+# And all the file types I'm interested in.
+!.gitignore
