@@ -40,13 +40,13 @@ def build_dataset(root_img_dirc, ann_path, save_path):
 
 if __name__ == "__main__":
     # training dataset
-    train_img_dirc = "../../ms_coco_sakka_attention/data/images/train2014"
+    train_img_dirc = "../images/train2014"
     train_path = "../data/annotations/captions_train2014.json"
     save_train_path = "../data/label/train.csv"
     build_dataset(train_img_dirc, train_path, save_train_path)
 
     # validation dataset
-    val_img_dirc = "../../ms_coco_sakka_attention/data/images/val2014"
+    val_img_dirc = "../images/val2014"
     val_path = "../data/annotations/captions_val2014.json"
     save_val_path = "../data/label/val.csv"
     build_dataset(val_img_dirc, val_path, save_val_path)
