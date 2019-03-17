@@ -4,7 +4,7 @@ import pandas as pd
 import json
 
 
-def build_dataset(ann_path, save_path):
+def build_dataset(root_img_dirc, ann_path, save_path):
     annotations = json.load(open(ann_path, "r"))
 
     # convert dictionary: image path -> image ID
@@ -38,11 +38,13 @@ def build_dataset(ann_path, save_path):
 
 if __name__ == "__main__":
     # training dataset
+    train_img_dirc = "../images/train2014"
     train_path = "../data/annotations/captions_train2014.json"
     save_train_path = "../data/label/train.csv"
-    build_dataset(train_path, save_train_path)
-    
+    build_dataset(train_img_dirc, train_path, save_train_path)
+
     # validation dataset
+    val_img_dirc = "../images/val2014"
     val_path = "../data/annotations/captions_val2014.json"
     save_val_path = "../data/label/val.csv"
-    build_dataset(val_path, save_val_path)
+    build_dataset(val_img_dirc, val_path, save_val_path)
