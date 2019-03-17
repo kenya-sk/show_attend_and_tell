@@ -61,9 +61,9 @@ def score_parse():
 
     # Data Argument
     parser.add_argument("--pred_path", type=str,
-                       default="/root/userspace/public/JSRT/sakka/medical_image_attention/data/prediction/image_freq_thresh_5_each_word_100_anomal_test.csv")
+                       default="../data/prediction/prediction.csv")
     parser.add_argument("--vocab_path", type=str,
-                        default="/root/userspace/public/JSRT/sakka/medical_image_attention/data/vocab/vocab_freq_thresh_5.pkl")
+                        default="../data/vocab/vocab.pkl")
 
     args = parser.parse_args()
 
@@ -72,7 +72,7 @@ def score_parse():
 
 if __name__ == "__main__":
     logger = logging.getLogger("__name__")
-    log_path = "/root/userspace/public/JSRT/sakka/medical_image_attention/logs/bleu_5_test.log"
+    log_path = "../logs/bleu.log"
     logging.basicConfig(filename=log_path,
                         level=logging.DEBUG,
                         format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s")
