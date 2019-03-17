@@ -18,7 +18,7 @@ class EncoderResNet(nn.Module):
 
         # feature extraction model (ResNet152)
         resnet = models.resnet152(pretrained=True)
-        self._resnet_extractor = nn.Sequential(*(list(resnet.children())[:-2])
+        self._resnet_extractor = nn.Sequential(*(list(resnet.children())[:-2]))
 
         # Resize image (encoded_img_size)
         self.encoded_img_size = encoded_img_size

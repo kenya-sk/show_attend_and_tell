@@ -174,8 +174,10 @@ def main(args):
 
     # data loader
     transform = set_transform(args.resize, args.crop_size)
-    train_loader = get_image_loader(args.root_img_dirc, args.train_data_path, vocab, transform, args.batch_size, args.shuffle, args.num_workers)
-    val_loader = get_image_loader(args.root_img_dirc, args.val_data_path, vocab, transform, 1, args.shuffle, args.num_workers)
+    train_img_dirc = os.path.join(args.root_img_dirc, "train2014")
+    train_loader = get_image_loader(train_img_dirc, args.train_data_path, vocab, transform, args.batch_size, args.shuffle, args.num_workers)
+    val_img_dirc = os.path.join(args.root_img_dirc, "val2014")
+    val_loader = get_image_loader(val_img_dirc, args.val_data_path, vocab, transform, 1, args.shuffle, args.num_workers)
 
     # initialization
     prev_bleu_score = 100000

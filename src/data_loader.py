@@ -24,7 +24,7 @@ class ImageDataset(data.Dataset):
         return len(self._target_df)
     
     def __getitem__(self, idx):
-        img_path = self._target_df["path"][idx]
+        img_path = self._target_df["file_name"][idx]
         
         img_path = os.path.join(self._root_dirc, img_path)
         image= Image.open(img_path).convert("RGB")
