@@ -33,8 +33,8 @@ def save_prediciton(names_lst, captions_lst, save_dirc, thresh, each_word):
         pred_dct_lst["ans"].append(names_lst[i].replace(" ", ""))
         pred_dct_lst["pred"].append(captions_lst[i])
 
-    pd.DataFrame(pred_dct_lst).to_csv(
-        "{0}/image_freq_thresh_{1}_each_word_{2}_beam1.csv".format(save_dirc, thresh, each_word), index=False)
+    save_path = os.path.join(save_dirc, "prediction.csv")
+    pd.DataFrame(pred_dct_lst).to_csv(save_path, index=False)
 
 
 def model_setting(args):
@@ -78,7 +78,7 @@ def prediction(args):
     # load test data
     test_df = pd.read_csv(args.test_data_path)
     for i, path in enumerate(test_df["path"]):
-        test_df.iloc[i]["path"] = args.root_img_dirc + path
+        test_df.iloc[i]["path"] = os.path.join(args.root_img_dirc, path)
 
     # load vocabulary
     vocab = pickle.load(open(args.vocab_path, "rb"))
@@ -111,7 +111,7 @@ def prediction(args):
                 fea = fea.view(fea.size(0), args.vis_dim, args.vis_num).transpose(1,2)
 
                 #ids, weights = decoder_model.module.captioning(fea)
-                ids, weights = decoder_model.module.beam_search_captioning(fea, vocab, beam_size=1)
+                ids, weights = decoder_model.module.beam_search_captioning(fea, vocab, beam_size=args.beam_size)
                 
                 names_lst.append(name)
                 captions_lst.append(ids)
@@ -136,29 +136,22 @@ def make_parse():
     )
 
     # data Argument
-    parser.add_argument("--root_img_dirc", type=str,
-                        default="/root/userspace/public/JSRT/sakka/medical_image_attention/image/jpg/")
-    parser.add_argument("--test_data_path", type=str,
-                        default="/root/userspace/public/JSRT/sakka/medical_image_attention/data/label/image_freq_thresh_5_test.csv")
-    parser.add_argument("--vocab_path", type=str,
-                        default="/root/userspace/public/JSRT/sakka/medical_image_attention/data/vocab/vocab_freq_thresh_5.pkl")
-    parser.add_argument("--encoder_model_path", type=str,
-                        default="/root/userspace/public/JSRT/sakka/medical_image_attention/data/model/encoder_freq5_test.pth")
-    parser.add_argument("--decoder_model_path", type=str,
-                        default="/root/userspace/public/JSRT/sakka/medical_image_attention/data/model/decoder_freq5_test.pth")
-    parser.add_argument("--save_dirc", type=str,
-                        default="../data/prediction")
+    parser.add_argument("--root_img_dirc", type=str, default="../images/")
+    parser.add_argument("--test_data_path", type=str, default="../data/label/test.csv")
+    parser.add_argument("--vocab_path", type=str, default="../data/vocab/vocab.pkl")
+    parser.add_argument("--encoder_model_path", type=str, default="../data/model/encoder.pth")
+    parser.add_argument("--decoder_model_path", type=str, default="../data/model/decoder.pth")
+    parser.add_argument("--save_dirc", type=str, default="../data/prediction")
 
     # params Argument
     parser.add_argument("--vis_dim", type=int, default=2048)
     parser.add_argument("--vis_num", type=int, default=196)
-    parser.add_argument("--embed_dim", type=int, default=118)
-    parser.add_argument("--hidden_dim", type=int, default=256)
-    parser.add_argument("--vocab_size", type=int, default=118)
+    parser.add_argument("--embed_dim", type=int, default=512)
+    parser.add_argument("--hidden_dim", type=int, default=512)
+    parser.add_argument("--vocab_size", type=int, default=10000)
     parser.add_argument("--num_layers", type=int, default=1)
     parser.add_argument("--dropout_ratio", type=float, default=0.0)
-    parser.add_argument("--cap_freq_thresh", type=int, default=5)
-    parser.add_argument("--each_word", type=int, default=100)
+    parser.add_argument("--beam_size", type=int, default=1)
 
     args = parser.parse_args()
 
