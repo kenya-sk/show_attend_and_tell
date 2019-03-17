@@ -268,7 +268,7 @@ def make_parse():
     parser.add_argument("--batch_size", type=int, default=64)
     parser.add_argument("--stop_count", type=int, default=20)
     parser.add_argument("--grad_clip", type=float, default=5.0)
-    parser.add_argument("--beam_size", type=int, default=1)
+    parser.add_argument("--beam_size", type=int, default=3)
 
     args = parser.parse_args()
 
