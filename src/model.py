@@ -12,40 +12,16 @@ from torch.autograd import Variable
 from utils import to_variable, tensor2numpy
 
 
-class Resnet(nn.Module):
-    def __init__(self, class_num):
-        super(Resnet, self).__init__()
-        self.resnet = models.resnet152(pretrained=True)
-        self.fc = nn.Linear(1000, class_num)
-        
-    def forward(self, x):
-        x = self.resnet(x)
-        x = self.fc(x)
-        return x
-    
-    def predict(self, x):
-        x = self.resnet(x)
-        x = self.fc(x)
-        pred = torch.argmax(x, 1)
-        return pred
-
-
 class EncoderResNet(nn.Module):
     def __init__(self, encoded_img_size=14, model_path=None):
         super(EncoderResNet, self).__init__()
-        self.encoded_img_size = encoded_img_size
-        if model_path is not None:
-            #  NEED FIX
-            class_num = 11
-            resnet =  Resnet(class_num)
-            resnet.load_state_dict(torch.load(model_path))
-            self._resnet_extractor = nn.Sequential(*(list(resnet.resnet.children())[:-2]))
-        else:
-            # feature extraction model (ResNet152)
-            resnet = models.resnet152(pretrained=True)
-            self._resnet_extractor = nn.Sequential(*(list(resnet.children())[:-2]))
-        
+
+        # feature extraction model (ResNet152)
+        resnet = models.resnet152(pretrained=True)
+        self._resnet_extractor = nn.Sequential(*(list(resnet.children())[:-2])
+
         # Resize image (encoded_img_size)
+        self.encoded_img_size = encoded_img_size
         self.adaptive_pool = nn.AdaptiveAvgPool2d((encoded_img_size, encoded_img_size))
 
     def forward(self, x):

@@ -150,7 +150,7 @@ def main(args):
         vocab = pickle.load(f)
     
     # encoder model setting
-    encoder = EncoderResNet(model_path=args.encoder_pretrained_path)
+    encoder = EncoderResNet()
     encoder_optimizer = torch.optim.Adam(params=filter(lambda p: p.requires_grad, encoder.parameters()),
                                         lr=args.encoder_lr) if args.fine_tune_encoder else None
 
@@ -241,7 +241,6 @@ def make_parse():
     parser.add_argument("--root_img_dirc", type=str, default="../images/")
     parser.add_argument("--train_data_path", type=str, default="../data/label/train.csv")
     parser.add_argument("--val_data_path", type=str, default="../data/label/val.csv")
-    parser.add_argument("--encoder_pretrained_path", type=str,default="../data/model/pretrained_encoder.pth")
     parser.add_argument("--vocab_path", type=str, default="../data/vocab/vocab.pkl")
     parser.add_argument("--save_encoder_path", type=str, default="../data/model/encoder.pth")
     parser.add_argument("--save_decoder_path", type=str, default="../data/model/decoder.pth")

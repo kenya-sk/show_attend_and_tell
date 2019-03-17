@@ -80,12 +80,12 @@ class RelearningDataset(data.Dataset):
         return len(self._target_df)
     
     def __getitem__(self, idx):
-        img_path = os.path.join(self._root_dirc, self._target_df["ファイル名"][idx])
+        img_path = os.path.join(self._root_dirc, self._target_df["file_name"][idx])
         img = Image.open(img_path).convert("RGB")
         if self._transform is not None:
             img = self._transform(img)
             
-        label = self._target_df["所見"][idx]
+        label = self._target_df["caption"][idx]
         sample = {"img":img, "label":label}
         return sample
 
