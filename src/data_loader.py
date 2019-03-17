@@ -24,7 +24,6 @@ class ImageDataset(data.Dataset):
         return len(self._target_df)
     
     def __getitem__(self, idx):
-        # conver path: .npy -> .jpg
         img_path = self._target_df["path"][idx]
         
         img_path = os.path.join(self._root_dirc, img_path)
@@ -64,33 +63,4 @@ def collate_fn(data):
 def get_image_loader(root_dirc, file_path, vocab, transform, batch_size, shuffle, num_workers):
     dataset = ImageDataset(root_dirc, file_path, vocab, transform)
     data_loader = torch.utils.data.DataLoader(dataset=dataset, batch_size=batch_size, shuffle=shuffle, num_workers=num_workers, collate_fn=collate_fn)
-    return data_loader
-
-
-# relearning model data loader
-class RelearningDataset(data.Dataset):
-    
-    def __init__(self, root_dirc, file_path, class_num, transform=None):
-        self._root_dirc = root_dirc
-        self._target_df = pd.read_csv(file_path)
-        self._class_num = class_num
-        self._transform = transform
-        
-    def __len__(self):
-        return len(self._target_df)
-    
-    def __getitem__(self, idx):
-        img_path = os.path.join(self._root_dirc, self._target_df["file_name"][idx])
-        img = Image.open(img_path).convert("RGB")
-        if self._transform is not None:
-            img = self._transform(img)
-            
-        label = self._target_df["caption"][idx]
-        sample = {"img":img, "label":label}
-        return sample
-
-
-def get_relearning_loader(root_dirc, file_path, class_num, transform, batch_size, shuffle):
-    dataset = RelearningDataset(root_dirc, file_path, class_num, transform)
-    data_loader = torch.utils.data.DataLoader(dataset=dataset, batch_size=batch_size, shuffle=shuffle)
     return data_loader
