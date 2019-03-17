@@ -1,58 +1,57 @@
-import numpy as np
-import pandas as pd
+import os
+import json
 import pickle
+from tqdm import trange
 from collections import defaultdict
+from tqdm import trange
+import nltk
+nltk.download('punkt')
 
 from utils import Vocabulary
 
 
-def build_vocab(word_lst):
+def build_vocab(word_lst, size=10000):
     vocab = Vocabulary()
     vocab.add_word("<pad>")
     vocab.add_word("<start>")
     vocab.add_word("<end>")
     vocab.add_word("<unk>")
 
-    for word in word_lst:
+    for word in word_lst[:size-4]:
         vocab.add_word(word)
         
     return vocab
 
 
-def max_len(cap_lst):
-    max_len = 0
-    max_cap = ""
-    for cap in cap_lst:
-        if max_len < len(cap):
-            max_len = len(cap)
-            max_cap = cap
-            
-    print("Max Caption: {0}".format(max_cap))
-    print("Max Length: {0}".format(max_len))
+def get_word_lst(annotations):
+    word_lst = []
+    word_cnt_dict = defaultdict(int)
+    for i in trange(len(annotations["annotations"])):
+        caption = annotations["annotations"][i]["caption"]
+        tokens = nltk.tokenize.word_tokenize(str(caption).lower())
+        for token in tokens:
+            word_cnt_dict[token] += 1
+            if token not in word_lst:
+                word_lst.append(token)
+
+    return word_cnt_dict
 
 
-def build(cap_freq_thresh, char_min_freq, save_vocab_dirc):
-    data_df = pd.read_csv("../data/label/image_freq_thresh_{0}.csv".format(cap_freq_thresh))
-    cap_lst = list(data_df["caption"])
-    max_len(cap_lst)
+def build(ann_file_path, save_vocab_dirc):
+    # load annoteted data
+    annotations = json.load(open(ann_file_path, "r"))
 
-    # freq of each character
-    char2cnt = defaultdict(int)
-    for cap in cap_lst:
-        for char in cap:
-            char2cnt[char] += 1
+    # count the number of words
+    word_cnt_dict = get_word_lst(annotations)
 
-    # extract top frequancy character
-    char_min_freq = 0
-    top_char_lst = []
-    for char, cnt in sorted(char2cnt.items(), key=lambda x: -x[1]):
-        if cnt < char_min_freq:
-            break
-        top_char_lst.append(char)
+    # decreasing sort based on word frequency
+    sorted_word_lst = []
+    for k, _ in sorted(word_cnt_dict.items(), key=lambda x: -x[1]):
+        sorted_word_lst.append(k)
 
     # bulid vocabulary
-    vocab = build_vocab(top_char_lst)
-    vocab_path = "{0}/vocab_freq_thresh_{1}.pkl".format(save_vocab_dirc, cap_freq_thresh)
+    vocab = build_vocab(sorted_word_lst)
+    vocab_path = os.path.join(save_vocab_dirc, "vocab.pkl")
     with open(vocab_path, "wb") as f:
         pickle.dump(vocab, f)
     print("Number of  vocablary: {0}".format(len(vocab)))
@@ -60,8 +59,7 @@ def build(cap_freq_thresh, char_min_freq, save_vocab_dirc):
 
 
 if __name__ == "__main__":
-    cap_freq_thresh = 5
-    char_min_freq = 0
+    ann_file_path = "../data/annotations/captions_train2014.json"
     save_vocab_dirc = "../data/vocab"
-    build(cap_freq_thresh, char_min_freq, save_vocab_dirc)
+    build(ann_file_path, save_vocab_dirc)
 
