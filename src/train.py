@@ -18,7 +18,7 @@ from model import EncoderResNet, Decoder
 from bleu import bleu
 
 logger = logging.getLogger(__name__)
-log_path = "/root/userspace/public/JSRT/sakka/medical_image_attention/logs/train_freq5_each_100.log"
+log_path = "../logs/train.log"
 logging.basicConfig(filename=log_path,
                     level=logging.DEBUG,
                     format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s")
@@ -238,20 +238,13 @@ def make_parse():
     )
 
     # data Argument
-    parser.add_argument("--root_img_dirc", type=str, 
-        default="/root/userspace/public/JSRT/sakka/medical_image_attention/image/jpg/")
-    parser.add_argument("--train_data_path", type=str, 
-        default="/root/userspace/public/JSRT/sakka/medical_image_attention/data/label/image_freq_thresh_5_train.csv")
-    parser.add_argument("--val_data_path", type=str, 
-        default="/root/userspace/public/JSRT/sakka/medical_image_attention/data/label/image_freq_thresh_5_val.csv")
-    parser.add_argument("--encoder_pretrained_path", type=str,
-        default="/root/userspace/public/JSRT/sakka/medical_image_attention/data/model/pretrained_encoder.pth")
-    parser.add_argument("--vocab_path", type=str, 
-        default="/root/userspace/public/JSRT/sakka/medical_image_attention/data/vocab/vocab_freq_thresh_5.pkl")
-    parser.add_argument("--save_encoder_path", type=str, 
-        default="/root/userspace/public/JSRT/sakka/medical_image_attention/data/model/encoder_freq5.pth")
-    parser.add_argument("--save_decoder_path", type=str, 
-        default="/root/userspace/public/JSRT/sakka/medical_image_attention/data/model/decoder_freq5.pth")
+    parser.add_argument("--root_img_dirc", type=str, default="../images/")
+    parser.add_argument("--train_data_path", type=str, default="../data/label/train.csv")
+    parser.add_argument("--val_data_path", type=str, default="../data/label/val.csv")
+    parser.add_argument("--encoder_pretrained_path", type=str,default="../data/model/pretrained_encoder.pth")
+    parser.add_argument("--vocab_path", type=str, default="../data/vocab/vocab.pkl")
+    parser.add_argument("--save_encoder_path", type=str, default="../data/model/encoder.pth")
+    parser.add_argument("--save_decoder_path", type=str, default="../data/model/decoder.pth")
 
     # params Argument
     parser.add_argument("--fine_tune_encoder", type=bool, default=True)
@@ -261,18 +254,18 @@ def make_parse():
     parser.add_argument("--num_workers", type=int, default=1)
     parser.add_argument("--vis_dim", type=int, default=2048)
     parser.add_argument("--vis_num", type=int, default=196)
-    parser.add_argument("--embed_dim", type=int, default=118)
-    parser.add_argument("--hidden_dim", type=int, default=256)
+    parser.add_argument("--embed_dim", type=int, default=512)
+    parser.add_argument("--hidden_dim", type=int, default=512)
     parser.add_argument("--alpha_c", type=int, default=1)
-    parser.add_argument("--vocab_size", type=int, default=118)
+    parser.add_argument("--vocab_size", type=int, default=10000)
     parser.add_argument("--num_layers", type=int, default=1)
     parser.add_argument("--dropout_ratio", type=float, default=0.5)
     parser.add_argument("--encoder_lr", type=float, default=1e-4)
     parser.add_argument("--decoder_lr", type=float, default=4e-4)
     parser.add_argument("--num_epochs", type=int, default=200)
-    parser.add_argument("--batch_size", type=int, default=16)
+    parser.add_argument("--batch_size", type=int, default=64)
     parser.add_argument("--stop_count", type=int, default=20)
-    parser.add_argument("--grad_clip", type=float, default=None)
+    parser.add_argument("--grad_clip", type=float, default=5.0)
     parser.add_argument("--beam_size", type=int, default=1)
 
     args = parser.parse_args()
