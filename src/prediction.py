@@ -26,7 +26,7 @@ def set_pred_transform():
     return transform
 
 
-def save_prediciton(names_lst, captions_lst, save_dirc, thresh, each_word):
+def save_prediciton(names_lst, captions_lst, save_dirc):
     # get pred and test dataframe
     pred_dct_lst = {"pred": [], "ans": []}
     for i in range(len(names_lst)):
@@ -77,8 +77,8 @@ def conv_character_level(caption_lst):
 def prediction(args):
     # load test data
     test_df = pd.read_csv(args.test_data_path)
-    for i, path in enumerate(test_df["path"]):
-        test_df.iloc[i]["path"] = os.path.join(args.root_img_dirc, path)
+    for i, path in enumerate(test_df["file_name"]):
+        test_df.iloc[i]["file_name"] = os.path.join(args.root_img_dirc, path)
 
     # load vocabulary
     vocab = pickle.load(open(args.vocab_path, "rb"))
@@ -90,19 +90,17 @@ def prediction(args):
 
     # split character level
     opinion_lst = list(test_df["caption"])
-    name_lst = conv_character_level(opinion_lst)
         
     # initialize
-    img_path_lst = list(test_df["path"])
-    names_lst = []
+    img_path_lst = list(test_df["file_name"])
+    opinions_lst = []
     captions_lst = []
-    alphas_lst = []
     transform = set_pred_transform()
     rm_path_cnt = 0
 
     # prediction
     with torch.no_grad():
-        for img_path, name in tqdm(zip(img_path_lst, name_lst), total=len(img_path_lst)):
+        for img_path, op in tqdm(zip(img_path_lst, opinion_lst), total=len(img_path_lst)):
             if os.path.exists(img_path):
                 img = Image.open(img_path).convert("RGB")
                 img = transform(img)
@@ -110,12 +108,10 @@ def prediction(args):
                 fea = encoder_model(img.unsqueeze(0))
                 fea = fea.view(fea.size(0), args.vis_dim, args.vis_num).transpose(1,2)
 
-                #ids, weights = decoder_model.module.captioning(fea)
-                ids, weights = decoder_model.module.beam_search_captioning(fea, vocab, beam_size=args.beam_size)
+                ids, _ = decoder_model.module.beam_search_captioning(fea, vocab, beam_size=args.beam_size)
                 
-                names_lst.append(name)
+                opinions_lst.append(op.lower())
                 captions_lst.append(ids)
-                alphas_lst.append(weights)
             else:
                 rm_path_cnt += 1
 
@@ -123,7 +119,7 @@ def prediction(args):
     decoded_cap_lst = decode_caption(captions_lst, vocab.idx2word)
 
     # save prediction result
-    save_prediciton(names_lst, decoded_cap_lst, args.save_dirc, args.cap_freq_thresh, args.each_word)
+    save_prediciton(names_lst, decoded_cap_lst, args.save_dirc)
 
 
 def make_parse():
