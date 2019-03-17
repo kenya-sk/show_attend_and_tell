@@ -181,9 +181,9 @@ def main(args):
     val_loader = get_image_loader(val_img_dirc, args.val_data_path, vocab, transform, 1, args.shuffle, args.num_workers)
 
     # initialization
-    prev_bleu_score = 100000
+    prev_bleu_score = -100
+    best_score = -100
     not_improved_count = 0
-    best_score = 0
 
     for epoch in range(1, args.num_epochs):
         # training
