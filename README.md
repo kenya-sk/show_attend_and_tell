@@ -7,13 +7,18 @@ paper: Show, Attend and Tell: Neural Image Caption Generation with Visual Attent
 
 ### Install Required Packages
 First ensure that you have installed the following required packages.  
-- Python 3.5.2
-- NumPy 1.13.1
-- Pandas 0.23.0
-- Matplotlib 2.0.2
-- Pillow 5.1.0
+```
+pip install -r requirements.txt
+```
+
+- python 3.5.2
+- numPy 1.13.1
+- pandas 0.23.0
+- matplotlib 2.0.2
+- pillow 5.1.0
 - PyTorch 0.4.1
-- Natural Language Toolkit (NLTK)  
+- tqdm 4.24.0
+- Natural Language Toolkit (NLTK) 3.2.4
 
 
 ### MS-COCO Data
