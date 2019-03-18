@@ -11,22 +11,30 @@ First ensure that you have installed the following required packages.
 - NumPy 1.13.1
 - Pandas 0.23.0
 - Matplotlib 2.0.2
-- OpenCV 3.3.0
 - Pillow 5.1.0
 - PyTorch 0.4.1
 - Natural Language Toolkit (NLTK)  
 
 
 ### MS-COCO Data
- MS-COCO dataset downloaded in following path. Image format is ".jpg".
- ```
- Image Path: 
- /root/userspace/public/JSRT/sakka/ms_coco_sakka_attention/data/images/train_2014 or val_2014/
+MS-COCO dataset downloaded in following path. Image format is ".jpg".
+```
+Image Path: 
+show_attend_and_tell/data/images/train_2014 or val_2014/
 
- Caption (Answer label):
- /root/userspace/public/JSRT/sakka/ms_coco_sakka_attention/data/annotations/captions_train2014.json
- ```
+Caption (Answer label):
+show_attend_and_tell/data/annotations/captions_train2014.json
+```
 
 If downloading by yourself, both training and validation are necessary.  
-Downloding from here.  
-http://cocodataset.org/#download
+Downloding from here (http://cocodataset.org/#download).
+```
+Train data:
+wget http://images.cocodataset.org/zips/train2014.zip
+
+Validataion data:
+wget http://images.cocodataset.org/zips/val2014.zip
+
+Caption data:
+wget http://images.cocodataset.org/annotations/annotations_trainval2014.zip
+```
