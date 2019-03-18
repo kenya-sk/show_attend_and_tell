@@ -181,9 +181,8 @@ def main(args):
     val_loader = get_image_loader(val_img_dirc, args.val_data_path, vocab, transform, 1, args.shuffle, args.num_workers)
 
     # initialization
-    prev_bleu_score = -100
-    best_score = -100
-    not_improved_count = 0
+    best_bleu_score = -100
+    not_improved_cnt = 0
 
     for epoch in range(1, args.num_epochs):
         # training
@@ -198,16 +197,16 @@ def main(args):
         bleu_score = bleu(pred_cap_lst, ans_cap_lst, mode="4-gram")
 
         # early stopping
-        if bleu_score < prev_bleu_score:
-            not_improved_count += 1
+        if bleu_score < best_bleu_score:
+            not_improved_cnt += 1
         else:
             # learning is going well
-            not_improved_count = 0
+            best_score = bleu_score
+            not_improved_cnt = 0
+
             # save best params model
-            if bleu_score > best_score:
-                best_score = bleu_score
-                torch.save(encoder.state_dict(), args.save_encoder_path)
-                torch.save(decoder.state_dict(), args.save_decoder_path)
+            torch.save(encoder.state_dict(), args.save_encoder_path)
+            torch.save(decoder.state_dict(), args.save_decoder_path)
 
         # logging status
         logger.debug("\n************************ VAL ************************\n"
@@ -215,20 +214,17 @@ def main(args):
                      "BLEU-4         : {2}\n"
                      "EARLY STOPPING : [{3}/{4}]\n"
                      "*****************************************************\n".format(
-                        epoch, args.num_epochs, bleu_score,not_improved_count, args.stop_count))
+                        epoch, args.num_epochs, bleu_score,not_improved_cnt, args.stop_count))
 
-        if not_improved_count == args.stop_count:
+        if not_improved_cnt == args.stop_count:
             logger.debug("Early Stopping")
             break
 
         # decay learning rate if there is no improvement for 10 consecutive epochs
-        if (not_improved_count > 0) and (not_improved_count%10 == 0):
+        if not_improved_cnt%10 == 0:
             if args.fine_tune_encoder:
                 adjust_learning_rate(encoder_optimizer, 0.8)
             adjust_learning_rate(decoder_optimizer, 0.8)
-        
-        # update previous validataion loss
-        prev_bleu_score = bleu_score
 
 
 def make_parse():
