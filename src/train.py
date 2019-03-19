@@ -261,7 +261,7 @@ def make_parse():
     parser.add_argument("--encoder_lr", type=float, default=1e-4)
     parser.add_argument("--decoder_lr", type=float, default=4e-4)
     parser.add_argument("--num_epochs", type=int, default=200)
-    parser.add_argument("--batch_size", type=int, default=64)
+    parser.add_argument("--batch_size", type=int, default=32)
     parser.add_argument("--stop_count", type=int, default=20)
     parser.add_argument("--grad_clip", type=float, default=5.0)
     parser.add_argument("--beam_size", type=int, default=3)
