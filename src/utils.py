@@ -49,23 +49,6 @@ class AverageMeter(object):
         self.avg = self.sum / self.count
 
 
-def check_img_path(root_img_dirc, data_df):
-    print("Check image file path")
-    data_dctlst = {"caption":[], "path":[]}
-    not_exist_cnt = 0
-    for cap, path in tqdm(zip(data_df["caption"], data_df["path"]), total=len(data_df)):
-        if (os.path.exists(os.path.join(root_img_dirc, path))):
-            data_dctlst["caption"].append(cap)
-            data_dctlst["path"].append(path)
-        else:
-            not_exist_cnt += 1
-
-    print("Not Exist File Count: {0}".format(not_exist_cnt))
-    data_df = pd.DataFrame(data_dctlst)
-
-    return data_df
-
-
 def tensor2numpy(x):
     return x.data.cpu().numpy()
 
@@ -86,47 +69,6 @@ def set_transform(resize=(256,256), crop_size=(224,224), horizontal_flip=False, 
                              (0.229, 0.224, 0.225))]) if normalize
     
     return transform
-
-def get_caption_lst(vocab_path, label_df):
-    with open(vocab_path, "rb") as f:
-        vocab = pickle.load(f)
-
-    caption_lst = []
-    for i in range(len(label_df)):
-        word = ""
-        opinion = label_df["caption"][i]
-        for op in opinion:
-            if op != " ":
-                word += "{} ".format(op)
-        caption_lst.append(caption_tensor(word, vocab))
-        
-    return caption_lst
-
-
-def caption_tensor(caption, vocab):
-    tokens = nltk.tokenize.word_tokenize(str(caption).lower())
-    target = []
-    target.append(vocab("<start>"))
-    target.extend([vocab(word) for word in tokens])
-    target.append(vocab("<end>"))
-    target = torch.Tensor(target)
-
-    return target
-
-
-def get_length_lst(caption_lst):
-    length_lst = [len(cap) for cap in caption_lst]
-
-    return length_lst
-
-
-def get_target_lst(caption_lst, length_lst):
-    target_lst = torch.zeros(len(caption_lst), max(length_lst)).long()
-    for i, cap in enumerate(caption_lst):
-        end = length_lst[i]
-        target_lst[i, :end] = cap[:end]
-
-    return target_lst
 
 
 def decode_caption(captions_lst, idx2word):

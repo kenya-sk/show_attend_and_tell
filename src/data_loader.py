@@ -10,8 +10,6 @@ import torchvision.transforms as transforms
 import torchvision.models as models
 from torch.autograd import Variable
 
-from utils import caption_tensor
-
 
 # Encoder-Decoder model data loder
 class ImageDataset(data.Dataset):
