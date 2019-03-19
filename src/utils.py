@@ -11,6 +11,18 @@ from torch.autograd import Variable
 
 
 class Vocabulary(object):
+    """
+    Vocabulary class manage words and corresponding indexes.
+    If input the not registered word, return <unk>.
+
+    word2idx : dictionary which converts word to index.
+    idx2word : dictionary which converts index to word.
+    idx      : keep current index.
+
+    method:
+        add_word: To register a new word in vocabulay class.
+    """
+
     def __init__(self):
         self.word2idx = {}
         self.idx2word = {}
@@ -33,6 +45,19 @@ class Vocabulary(object):
 
 
 class AverageMeter(object):
+    """
+    AverageMeter class manage statistics value about one variable.
+
+    val : current value.
+    avg : average of past input values.
+    sum : summation of past input values.
+    cnt : the number of element size.
+
+    method:
+        reset  : To set all statistics value to 0.
+        update : To update all statistics value by input value.
+    """
+
     def __init__(self):
         self.reset()
 
@@ -40,20 +65,28 @@ class AverageMeter(object):
         self.val = 0
         self.avg = 0
         self.sum = 0
-        self.count = 0
+        self.cnt = 0
 
     def update(self, val, n=1):
         self.val = val
         self.sum += val * n
-        self.count += n
-        self.avg = self.sum / self.count
+        self.cnt += n
+        self.avg = self.sum / self.cnt
 
 
 def tensor2numpy(x):
+    """
+    Convert tensor to numpy and variable move GPU to CPU. 
+    """
+
     return x.data.cpu().numpy()
 
 
 def to_variable(x):
+    """
+    If the device can be used GPU, to move the variable.
+    """
+
     if torch.cuda.is_available():
         x = x.cuda()
     return Variable(x)
