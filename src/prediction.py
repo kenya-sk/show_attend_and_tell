@@ -12,18 +12,7 @@ import torchvision.transforms as transforms
 from torch.autograd import Variable
 
 from model import EncoderResNet, Decoder
-from utils import  to_variable, Vocabulary, decode_caption
-
-
-def set_pred_transform():
-    # NEED FIX 
-    transform = transforms.Compose([
-        transforms.Resize((224,224)),
-        transforms.ToTensor(),
-        transforms.Normalize((0.485, 0.456, 0.406),
-                             (0.229, 0.224, 0.225))])
-    
-    return transform
+from utils import  to_variable, Vocabulary, set_transform, decode_caption
 
 
 def save_prediciton(names_lst, captions_lst, save_dirc):
@@ -95,7 +84,7 @@ def prediction(args):
     img_path_lst = list(test_df["file_name"])
     opinions_lst = []
     captions_lst = []
-    transform = set_pred_transform()
+    transform = set_transform(resize=(224, 224), crop_size=None, horizontal_flip=False, normalize=True)
     rm_path_cnt = 0
 
     # prediction

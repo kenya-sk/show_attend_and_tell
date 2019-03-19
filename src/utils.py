@@ -76,14 +76,14 @@ def to_variable(x):
     return Variable(x)
 
 
-def set_transform(resize=(256,256), crop_size=(224,224)):
+def set_transform(resize=(256,256), crop_size=(224,224), horizontal_flip=False, normalize=True):
     transform = transforms.Compose([
-        transforms.Resize(resize),
-        transforms.RandomCrop(crop_size),
-        transforms.RandomHorizontalFlip(),
+        transforms.Resize(resize) if resize is not None,
+        transforms.RandomCrop(crop_size) if crop_size is not None,
+        transforms.RandomHorizontalFlip() if horizontal_flip,
         transforms.ToTensor(),
         transforms.Normalize((0.485, 0.456, 0.406),
-                             (0.229, 0.224, 0.225))])
+                             (0.229, 0.224, 0.225))]) if normalize
     
     return transform
 

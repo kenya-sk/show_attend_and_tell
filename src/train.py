@@ -174,7 +174,7 @@ def main(args):
     criterion = nn.CrossEntropyLoss()
 
     # data loader
-    transform = set_transform(args.resize, args.crop_size)
+    transform = set_transform(args.resize, args.crop_size, horizontal_flip=True, normalize=True)
     train_img_dirc = os.path.join(args.root_img_dirc, "train2014")
     train_loader = get_image_loader(train_img_dirc, args.train_data_path, vocab, transform, args.batch_size, args.shuffle, args.num_workers)
     val_img_dirc = os.path.join(args.root_img_dirc, "val2014")
