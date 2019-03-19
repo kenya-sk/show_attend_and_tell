@@ -94,12 +94,12 @@ def to_variable(x):
 
 def set_transform(resize=(256,256), crop_size=(224,224), horizontal_flip=False, normalize=True):
     compose_lst = []
-    compose_lst.append(transforms.Resize(resize)) if resize is not None
-    compose_lst.append(transforms.RandomCrop(crop_size)) if crop_size is not None
-    compose_lst.append(transforms.RandomHorizontalFlip()) if horizontal_flip
+    if resize is not None: compose_lst.append(transforms.Resize(resize))
+    if crop_size is not None: compose_lst.append(transforms.RandomCrop(crop_size))
+    if horizontal_flip: compose_lst.append(transforms.RandomHorizontalFlip())
     compose_lst.append(transforms.ToTensor())
-    compose_lst.append(transforms.Normalize((0.485, 0.456, 0.406),
-                             (0.229, 0.224, 0.225))) if normalize
+    if normalize: compose_lst.append(transforms.Normalize((0.485, 0.456, 0.406),
+                             (0.229, 0.224, 0.225)))
 
     transform = transforms.Compose(compose_lst)
     
