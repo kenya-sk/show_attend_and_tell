@@ -249,7 +249,7 @@ def make_parse():
     parser.add_argument("--resize", type=tuple, default=(256, 256))
     parser.add_argument("--crop_size", type=tuple, default=(224, 224))
     parser.add_argument("--shuffle", type=bool, default=True)
-    parser.add_argument("--num_workers", type=int, default=1)
+    parser.add_argument("--num_workers", type=int, default=0)
     parser.add_argument("--vis_dim", type=int, default=2048)
     parser.add_argument("--vis_num", type=int, default=196)
     parser.add_argument("--embed_dim", type=int, default=512)
