@@ -53,7 +53,7 @@ Each datasets are saved in csv format under the directory of "../data/label/"
 ```
 # build train and validation datasets
 
-python3 build_dataset.py
+python3 ./src/build_dataset.py
 ```
 
 ### Prepare the Vocaburary
@@ -62,7 +62,7 @@ The vocaburary is saved in "../data/vocab/vocab.pkl".
 ```
 # build vocaburary
 
-python3 build_vocaburay.py
+python3 ./src/build_vocaburay.py
 ```
 
 ### Training Encoder-Decoder Model
