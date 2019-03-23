@@ -107,14 +107,25 @@ def set_transform(resize=(256,256), crop_size=(224,224), horizontal_flip=False, 
 
 
 def decode_caption(captions_lst, idx2word):
+    def join_cap(cap_lst, termination_lst=[".", "\""]):
+        decoded_cap = ""
+        for cap in cap_lst:
+            if cap in termination_lst:
+                # not append space
+                decoded_cap += "{0}".format(cap)
+            else:
+                decoded_cap += "{0} ".format(cap)
+        return decoded_cap
+
     def decoded(cap, idx2word):
         decoded_lst = []
         for wid in range(len(cap)):
             word = idx2word[cap[wid]]
-            if word == '<end>':
+            if word == "<end>":
                 break
             decoded_lst.append(word)
-        decoded_cap = "".join(decoded_lst)
+
+        decoded_cap = join_cap(decoded_lst)
         return decoded_cap
 
     decoded_cap_lst = []
