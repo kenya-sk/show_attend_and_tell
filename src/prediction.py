@@ -108,7 +108,7 @@ def prediction(args):
     decoded_cap_lst = decode_caption(captions_lst, vocab.idx2word)
 
     # save prediction result
-    save_prediciton(names_lst, decoded_cap_lst, args.save_dirc)
+    save_prediciton(opinions_lst, decoded_cap_lst, args.save_dirc)
 
 
 def make_parse():
