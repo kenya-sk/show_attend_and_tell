@@ -197,7 +197,7 @@ def main(args):
         assert len(pred_cap_lst) == len(ans_cap_lst)
         bleu_score_lst = []
         for i in range(len(pred_cap_lst)):
-            bleu_score_lst.sppend(bleu(pred_cap_lst[i], ans_cap_lst[i], mode="4-gram"))
+            bleu_score_lst.append(bleu(pred_cap_lst[i], ans_cap_lst[i], mode="4-gram"))
         bleu_score = np.mean(bleu_score_lst)
 
         # early stopping
