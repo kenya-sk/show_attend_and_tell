@@ -201,7 +201,7 @@ def main(args):
             not_improved_cnt += 1
         else:
             # learning is going well
-            best_score = bleu_score
+            best_bleu_score = bleu_score
             not_improved_cnt = 0
 
             # save best params model
