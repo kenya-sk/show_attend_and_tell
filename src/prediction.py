@@ -19,7 +19,7 @@ def save_prediciton(names_lst, captions_lst, save_dirc):
     # get pred and test dataframe
     pred_dct_lst = {"pred": [], "ans": []}
     for i in range(len(names_lst)):
-        pred_dct_lst["ans"].append(names_lst[i].replace(" ", ""))
+        pred_dct_lst["ans"].append(names_lst[i])
         pred_dct_lst["pred"].append(captions_lst[i])
 
     save_path = os.path.join(save_dirc, "prediction.csv")
@@ -51,16 +51,6 @@ def model_setting(args):
     decoder_model = decoder_model.to(device)
 
     return encoder_model, decoder_model
-
-
-def conv_character_level(caption_lst):
-    name_lst = []
-    for cap in caption_lst:
-        name = ""
-        for char in cap:
-            name += "{} ".format(char)
-        name_lst.append(name)
-    return name_lst
 
 
 def prediction(args):
@@ -121,8 +111,8 @@ def make_parse():
     )
 
     # data Argument
-    parser.add_argument("--root_img_dirc", type=str, default="../images/")
-    parser.add_argument("--test_data_path", type=str, default="../data/label/test.csv")
+    parser.add_argument("--root_img_dirc", type=str, default="../images/val2014")
+    parser.add_argument("--test_data_path", type=str, default="../data/label/val.csv")
     parser.add_argument("--vocab_path", type=str, default="../data/vocab/vocab.pkl")
     parser.add_argument("--encoder_model_path", type=str, default="../data/model/encoder.pth")
     parser.add_argument("--decoder_model_path", type=str, default="../data/model/decoder.pth")
