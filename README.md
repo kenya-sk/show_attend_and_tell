@@ -3,9 +3,13 @@
 This repository reimplement "Show, Attend and Tell" model.  
 paper: Show, Attend and Tell: Neural Image Caption Generation with Visual Attention  (https://arxiv.org/pdf/1502.03044.pdf)
 
-## Getting Started
+Adittions:
+- Clip Gradient
+- Beam Search
 
-### Install Required Packages
+### Getting Started
+
+## Install Required Packages
 First ensure that you have installed the following required packages.  
 ```
 pip install -r requirements.txt
@@ -20,11 +24,12 @@ pip install -r requirements.txt
 - tqdm 4.24.0
 - Natural Language Toolkit (NLTK) 3.2.4
 
-### Weight of Trained Model
-Please wait a moment (Now training the model).
+## Weight of Trained Model
+If you need weights of trained model, please download below shared URL.
+https://1drv.ms/f/s!AnXtc4BrTcURpGNSuMKzAJVsSevV
 
 
-### MS-COCO Data
+## MS-COCO Data
 MS-COCO dataset downloaded in following path. Image format is ".jpg".
 ```
 Image Path: 
@@ -47,7 +52,7 @@ Caption data:
 wget http://images.cocodataset.org/annotations/annotations_trainval2014.zip
 ```
 
-### Prepare the Dataset
+## Prepare the Dataset
 Build datasets with columns of image paths and corresponding captions.   
 Each datasets are saved in csv format under the directory of "../data/label/"
 ```
@@ -56,7 +61,7 @@ Each datasets are saved in csv format under the directory of "../data/label/"
 python3 ./src/build_dataset.py
 ```
 
-### Prepare the Vocaburary
+## Prepare the Vocaburary
 Based on the frequency of words appearing in training data, build vocaburary to use model. default vacaburary size is 10,000.  
 The vocaburary is saved in "../data/vocab/vocab.pkl".
 ```
@@ -65,7 +70,7 @@ The vocaburary is saved in "../data/vocab/vocab.pkl".
 python3 ./src/build_vocaburay.py
 ```
 
-### Training Encoder-Decoder Model
+## Training Encoder-Decoder Model
 In training, encoder and decoder are learned at the save time based on cross entropy loss of caption and loss of attention mechanism.
 ```
 1. ./src/train.py [-h]  [--root_img_dirc]  [--train_data_path]  
@@ -108,7 +113,7 @@ Hyper parameters and learning conditions can be set using arguments. Details are
 [--beam_size]                : Search width of beam search
 ```
 
-# Evaluation
+## Evaluation
 Evaluate the test data with BLEU score using the trained model. The procedure is as follows.
 
 ```
@@ -144,3 +149,8 @@ Hyper parameters of prediction model can be set using arguments. Details are as 
 [--dropout_rate]            : Not use dropout (set 0.0)
 [--beam_size]               : Search width of beam search
 ```
+
+# Result
+## BLUE score
+
+## Visualize
