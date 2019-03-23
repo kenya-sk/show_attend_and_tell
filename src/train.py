@@ -194,7 +194,11 @@ def main(args):
         # calculate BLEU-4 score
         pred_cap_lst = decode_caption(pred_df["pred"], vocab.idx2word)
         ans_cap_lst = decode_caption(pred_df["ans"], vocab.idx2word)
-        bleu_score = bleu(pred_cap_lst, ans_cap_lst, mode="4-gram")
+        assert len(pred_cap_lst) == len(ans_cap_lst)
+        bleu_score_lst = []
+        for i in range(len(pred_cap_lst)):
+            bleu_score_lst.sppend(bleu(pred_cap_lst[i], ans_cap_lst[i], mode="4-gram"))
+        bleu_score = np.mean(bleu_score_lst)
 
         # early stopping
         if bleu_score < best_bleu_score:
