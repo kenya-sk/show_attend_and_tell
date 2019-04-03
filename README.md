@@ -150,6 +150,8 @@ Hyper parameters of prediction model can be set using arguments. Details are as 
 ```
 
 # Result
-## BLUE score
-
 ## Visualize
+
+<img src="./demo/sample1.png" margin="50" width="500" title="sample1"> 
+<img src="./demo/sample2.png" margin="50" width="500" title="sample2"> 
+<img src="./demo/sample3.png" margin="50" width="500" title="sample3"> 
