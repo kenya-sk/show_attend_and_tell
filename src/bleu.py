@@ -34,15 +34,8 @@ def evaluate(args, logger):
         mode = "{0}-gram".format(mode_idx+1)
         score_lst = []
         for i in range(len(pred_df)):
-            pred_lst = []
-            pred = pred_df["pred"][i]
-            for p in pred:
-                pred_lst.append(p)
-            
-            ans_lst = []
-            answers = word_tokenize(pred_df["ans"][i])[0]
-            for ans in answers:
-                ans_lst.append(ans)
+            pred_lst = word_tokenize(pred_df["pred"][i])
+            ans_lst = word_tokenize(pred_df["ans"][i])
 
             bleu_score = bleu(pred_lst, ans_lst, mode)
             score_lst.append(bleu_score)
