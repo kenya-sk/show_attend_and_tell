@@ -11,8 +11,8 @@ import torchvision.models as models
 from torch.autograd import Variable
 
 
-# Encoder-Decoder model data loder
 class ImageDataset(data.Dataset):
+    # Encoder-Decoder model data loder
     def __init__(self, root_dirc, file_path, vocab, transform=None):
         self._root_dirc = root_dirc
         self._target_df = pd.read_csv(file_path)

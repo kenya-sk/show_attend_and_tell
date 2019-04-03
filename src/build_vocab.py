@@ -60,6 +60,6 @@ def build(ann_file_path, save_vocab_dirc):
 
 if __name__ == "__main__":
     ann_file_path = "../data/annotations/captions_train2014.json"
-    save_vocab_dirc = "../data/vocab"
+    save_vocab_dirc = "../data/vocab/"
     build(ann_file_path, save_vocab_dirc)
 

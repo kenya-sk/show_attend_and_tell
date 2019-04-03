@@ -44,7 +44,7 @@ def model_setting(args):
     decoder_model = nn.DataParallel(decoder_model)
     decoder_model.load_state_dict(torch.load(args.decoder_model_path))
 
-    # move to GPU and evaluation mode
+    # move to GPU and change evaluation mode
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("DEVICE: {}".format(device))
     encoder_model = encoder_model.to(device)

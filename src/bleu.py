@@ -45,7 +45,7 @@ def evaluate(args, logger):
 
 def score_parse():
     parser = argparse.ArgumentParser(
-        prog="bleu_score.py",
+        prog="bleu.py",
         usage="calculate bleu score",
         description="description",
         epilog="end",
