@@ -177,7 +177,7 @@ class Decoder(nn.Module):
         top_k_scores = torch.zeros(beam_size, 1).cuda()
 
         # store top k alpha of sequence
-        # (beam_size, 1, img_size, img_size) ?
+        # (beam_size, 1, img_size, img_size) 
         seqs_alpha = torch.ones(beam_size, 1, num_pixels).cuda()
 
         # list of completed sequences
@@ -186,7 +186,7 @@ class Decoder(nn.Module):
         comp_score_lst = []
 
         # initialization
-        #h0, c0 = self.init_hidden_state(feature)
+        # h0, c0 = self.init_hidden_state(feature)
         h0, c0 = self.get_start_states(beam_size)
         feas = torch.mean(feature, dim=1)
         alpha = torch.zeros(beam_size, num_pixels).cuda()
@@ -205,13 +205,13 @@ class Decoder(nn.Module):
             # add current score
             scores = top_k_scores.expand_as(scores) + scores
 
-            # NEED FIX: if分岐必要？
+            # NEED FIX
             if step == 0:
                 top_k_scores, top_k_chars = scores[0].topk(beam_size, 0, True, True)
             else:
                 top_k_scores, top_k_chars = scores.view(-1).topk(beam_size, 0, True, True)
 
-            # ???? Convert unrolled indices to actual indices of scores 
+            # Convert unrolled indices to actual indices of scores 
             prev_char_inds = top_k_chars / vocab_size
             next_char_inds = top_k_chars % vocab_size
 
