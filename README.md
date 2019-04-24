@@ -7,6 +7,8 @@ Adittions:
 - Clip Gradient
 - Beam Search
 
+<img src="./demo/model.png" margin="50" width="500" title="model"> 
+
 ### Getting Started
 
 ## Install Required Packages
