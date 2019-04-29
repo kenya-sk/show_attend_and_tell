@@ -68,7 +68,7 @@ The vocaburary is saved in "../data/vocab/vocab.pkl".
 ```
 # build vocaburary
 
-python3 ./src/build_vocaburay.py
+python3 ./src/build_vocab.py
 ```
 
 ## Training Encoder-Decoder Model
