@@ -27,8 +27,8 @@ pip install -r requirements.txt
 - Natural Language Toolkit (NLTK) 3.2.4
 
 ## Weight of Trained Model
-If you need weights of trained model, please download below shared URL. The Data size is about 320.5 MB.
-https://1drv.ms/f/s!AnXtc4BrTcURpGZOG7VxkZw3QBU-
+If you need weights of trained model, please download below shared URL. The data size is about 320.5 MB.
+https://drive.google.com/drive/folders/17HZVCFdVjoEz0yG-hZF929Ra8CtT2yM2?usp=sharing
 
 ## MS-COCO Data
 MS-COCO dataset downloaded in following path. Image format is ".jpg".
